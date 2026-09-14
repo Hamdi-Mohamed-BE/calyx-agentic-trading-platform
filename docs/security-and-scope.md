@@ -10,6 +10,7 @@ This repository is a clean portfolio and documentation boundary, not the product
 - Point-in-time macro/calendar tooling
 - Explicit promotion policy
 - Architecture and operating documentation
+- Sanitized, package-loadable master-agent and MCP-bootstrap prompts
 - Tests for the public surface
 
 ## Never included
@@ -24,3 +25,5 @@ This repository is a clean portfolio and documentation boundary, not the product
 The `.gitignore` treats these as denied classes. A pre-push audit should still scan the entire tracked tree, because ignore rules cannot remove a file that was already added.
 
 Sensitive runtime values have been replaced with environment variables. The copied public code contains no default broker login, server, private IP address, personal contact number, credential, or account telemetry. Live MT5 polling is disabled unless explicitly enabled in a private environment.
+
+The source prompt documents remain in the private workspace. Their public adaptations preserve research and safety behavior while removing personal absolute paths, current account/server identity, private strategy/deployment inventory, and fixed ownership identifiers. Private runtime context must be injected locally and kept untracked.

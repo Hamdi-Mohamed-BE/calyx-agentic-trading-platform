@@ -19,6 +19,7 @@ include = ["agentic_flow*", "website*"]
 
 [tool.setuptools.package-data]
 website = ["templates/*.html", "templates/partials/*.html", "static/*.css", "static/*.js", "static/images/*"]
+"agentic_flow.prompts" = ["*.md"]
 
 [project.optional-dependencies]
 dev = [

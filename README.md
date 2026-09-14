@@ -52,6 +52,7 @@ flowchart LR
 
 ```text
 agentic_flow/   Reusable research, macro and statistical audit components
+agentic_flow/prompts/ Versioned public-safe master and MCP bootstrap prompts
 website/app/    Complete original FastAPI store backend
 website/templates/ All original pages and reusable partials
 website/static/ Original CSS, JavaScript, and Calyx logo
@@ -63,7 +64,7 @@ docs/           Architecture, pipeline and security documentation
 tests/          Public-surface smoke and statistics tests
 ```
 
-See [the architecture](docs/architecture.md), [research pipeline](docs/research-pipeline.md), and [security boundary](docs/security-and-scope.md).
+See [the architecture](docs/architecture.md), [research pipeline](docs/research-pipeline.md), [agent prompt guide](agentic_flow/prompts/README.md), and [security boundary](docs/security-and-scope.md).
 The preserved store-specific setup and operating notes are in [website/README_FULL_STORE.md](website/README_FULL_STORE.md), with the original design plan in [website/WEBSITE_PLAN.md](website/WEBSITE_PLAN.md).
 
 ## Run locally
@@ -102,6 +103,15 @@ python -m agentic_flow.calyx_pipeline --help
 The only optional credential used by the published flow is `FXMD_API_KEY`; keep it in the local environment and never commit it. Copy `.env.example` if you need a reminder of the variable name.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) before changing the repository boundary.
+
+## Agent operating prompts
+
+The flow packages two sanitized prompts derived from the active private operating guides:
+
+- [`CALYX_ACTIVE_EA_AND_RESEARCH_ROOT.md`](agentic_flow/prompts/CALYX_ACTIVE_EA_AND_RESEARCH_ROOT.md) is the canonical evidence, research, portfolio, website, audit, and governance prompt.
+- [`AGENT_MCP_SETUP_PROMPT.md`](agentic_flow/prompts/AGENT_MCP_SETUP_PROMPT.md) is the portable MCP/tool bootstrap supplement.
+
+Applications may load them with `agentic_flow.prompts.load_agent_context()`. Personal paths, broker/account identifiers, credentials, exact active strategy inventory, and private deployment state are deliberately supplied only by the local untracked runtime.
 
 ## Safety statement
 
