@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Evidence-first MetaTrader 5 Expert Advisors from Calyx.">
+  <meta name="theme-color" content="#07100f">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Calyx">
+  <meta property="og:image" content="{{ request.url_for('static', path='images/calyx-logo.jpg') }}?v=20260906-calyx-logo">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="{{ request.url_for('static', path='images/calyx-logo.jpg') }}?v=20260906-calyx-logo">
+  <title>{% block title %}Calyx{% endblock %}</title>
+  <link rel="icon" type="image/jpeg" href="{{ url_for('static', path='images/calyx-logo.jpg') }}?v=20260906-calyx-logo">
+  <link rel="apple-touch-icon" href="{{ url_for('static', path='images/calyx-logo.jpg') }}?v=20260906-calyx-logo">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Manrope', 'sans-serif'], mono: ['DM Mono', 'monospace'] },
+          colors: {
+            ink: '#07100f', panel: '#0b1715', mint: '#7ef7c7', lime: '#c4ff63',
+            line: 'rgba(255,255,255,.10)', muted: '#8fa6a1'
+          },
+          boxShadow: { glow: '0 0 70px rgba(126,247,199,.12)' }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="{{ url_for('static', path='site.css') }}?v=20260907-blue-safe-badges">
+  {% block head %}{% endblock %}
+</head>
+<body class="bg-ink text-white antialiased">
+  <div class="noise" aria-hidden="true"></div>
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-ink/85 backdrop-blur-xl">
+    <nav class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-8" aria-label="Primary navigation">
+      <a href="/" class="group flex items-center gap-3" aria-label="Calyx home">
+        <span class="logo-mark calyx-logo-mark h-11 w-11 rounded-xl border border-mint/30">
+          <img src="{{ url_for('static', path='images/calyx-logo.jpg') }}?v=20260906-calyx-logo" alt="" width="44" height="44">
+        </span>
+        <span>
+          <span class="block text-sm font-extrabold tracking-[.16em]">CALYX</span>
+          <span class="block text-[10px] font-semibold uppercase tracking-[.28em] text-muted">Trading Systems</span>
+        </span>
+      </a>
+      <div class="hidden items-center gap-1 md:flex">
+        <a href="/store" class="nav-link {% if active == 'store' %}nav-active{% endif %}">Store</a>
+        <a href="/eas" class="nav-link {% if active == 'catalogue' %}nav-active{% endif %}">EAs</a>
+        <a href="/portfolio" class="nav-link {% if active == 'portfolio' %}nav-active{% endif %}">Portfolio</a>
+        <a href="/" class="nav-link {% if active == 'live' %}nav-active{% endif %}">Live</a>
+        <a href="/pricing" class="nav-link {% if active == 'pricing' %}nav-active{% endif %}">Pricing</a>
+        <a href="/risk" class="nav-link {% if active == 'risk' %}nav-active{% endif %}">Risk</a>
+      </div>
+      <div class="hidden items-center gap-3 md:flex">
+        <span class="rounded-full border border-white/10 px-3 py-1.5 font-mono text-[11px] text-muted">{{ product_count }} AVAILABLE EAs</span>
+        <a href="{{ contact_url }}" target="_blank" rel="noopener" class="button-primary text-sm">Contact Calyx</a>
+      </div>
+      <button id="menu-button" class="grid h-10 w-10 place-items-center rounded-xl border border-white/10 md:hidden" aria-label="Open navigation" aria-expanded="false">
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </nav>
+    <div id="mobile-menu" class="hidden border-t border-white/10 px-5 py-4 md:hidden">
+      <div class="grid gap-1">
+        <a href="/store" class="mobile-nav">Store home</a>
+        <a href="/eas" class="mobile-nav">EA catalogue</a>
+        <a href="/portfolio" class="mobile-nav">Portfolio audit</a>
+        <a href="/" class="mobile-nav">Live MT5 account</a>
+        <a href="/pricing" class="mobile-nav">Pricing</a>
+        <a href="/risk" class="mobile-nav">Risk disclosure</a>
+      </div>
+    </div>
+  </header>
+
+  <main>{% block content %}{% endblock %}</main>
+
+  <footer class="border-t border-white/10 bg-black/20">
+    <div class="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-[1.2fr_.8fr_.8fr] lg:px-8">
+      <div>
+        <div class="mb-4 flex items-center gap-3">
+          <img class="footer-brand-logo" src="{{ url_for('static', path='images/calyx-logo.jpg') }}?v=20260906-calyx-logo" alt="Calyx trading systems logo" width="72" height="108" loading="lazy">
+          <span><span class="block font-extrabold tracking-[.14em]">CALYX</span><span class="mt-1 block font-mono text-[9px] uppercase tracking-[.2em] text-muted">Trading Systems</span></span>
+        </div>
+        <p class="max-w-md text-sm leading-6 text-muted">MT5 automation presented with its real historical evidence, limitations and exact active-installer status. No guaranteed returns. No hidden research bots.</p>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <div class="grid gap-3 text-sm text-muted">
+          <a href="/store" class="hover:text-white">Store home</a>
+          <a href="/eas" class="hover:text-white">EA catalogue</a>
+          <a href="/portfolio" class="hover:text-white">Portfolio audit</a>
+          <a href="/" class="hover:text-white">Live MT5 account</a>
+          <a href="/pricing" class="hover:text-white">Pricing</a>
+          <a href="/risk" class="hover:text-white">Risk disclosure</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-heading">Purchase & support</p>
+        <a href="{{ contact_url }}" target="_blank" rel="noopener" class="text-sm text-mint hover:text-white">{{ whatsapp_display }}</a>
+        <p class="mt-3 text-xs leading-5 text-muted">Checkout is completed personally on WhatsApp. Confirm broker compatibility before payment.</p>
+      </div>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between lg:px-8">
+        <p>© {{ current_year }} Calyx. All rights reserved.</p>
+        <p>Trading leveraged products can result in the loss of all deposited capital.</p>
+      </div>
+    </div>
+  </footer>
+
+  <a href="{{ contact_url }}" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Contact Calyx">
+    <svg viewBox="0 0 32 32" class="h-5 w-5" fill="currentColor" aria-hidden="true"><path d="M19.11 17.2c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.15-.42-2.18-1.35-.81-.72-1.35-1.61-1.51-1.88-.16-.27-.02-.42.12-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.96.94-.96 2.28s.98 2.65 1.12 2.83c.14.18 1.93 2.94 4.67 4.13.65.28 1.16.45 1.56.57.66.21 1.25.18 1.72.11.52-.08 1.6-.65 1.83-1.29.23-.63.23-1.17.16-1.29-.07-.11-.25-.18-.52-.32z"/><path d="M16.04 3.2a12.6 12.6 0 0 0-10.82 19.1L3.5 28.6l6.45-1.69A12.6 12.6 0 1 0 16.04 3.2zm0 22.9c-2.02 0-4-.59-5.69-1.71l-.41-.24-3.82 1 1.02-3.72-.27-.43A10.3 10.3 0 1 1 16.04 26.1z"/></svg>
+    <span>Contact</span>
+  </a>
+  <script src="{{ url_for('static', path='site.js') }}?v=20260906-ea-sort-assets" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

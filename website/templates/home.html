@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Calyx — Evidence-first MT5 EAs{% endblock %}
+{% block content %}
+<section class="hero-shell relative overflow-hidden">
+  <div class="hero-orb hero-orb-one"></div><div class="hero-orb hero-orb-two"></div>
+  <div class="mx-auto grid min-h-[720px] max-w-7xl items-center gap-14 px-5 py-20 lg:grid-cols-[1.08fr_.92fr] lg:px-8 lg:py-24">
+    <div class="relative z-10">
+      <div class="eyebrow"><span class="pulse-dot"></span> Active installer · synced {{ installer_updated }}</div>
+      <h1 class="mt-8 max-w-4xl text-5xl font-extrabold leading-[.96] tracking-[-.055em] sm:text-6xl lg:text-[78px]">
+        Automation with the <span class="text-gradient">evidence left in.</span>
+      </h1>
+      <p class="mt-7 max-w-2xl text-lg leading-8 text-[#a9bcb7]">A curated MT5 catalogue of the sellable EAs in the active BAT. Development builds are separated, every result is labelled and every limitation stays visible.</p>
+      <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+        <a href="/eas" class="button-primary justify-center px-6 py-3.5">Explore {{ product_count }} available EAs <span aria-hidden="true">↗</span></a>
+        <a href="/portfolio" class="button-secondary justify-center px-6 py-3.5">Read the portfolio audit</a>
+      </div>
+      <div class="mt-10 flex flex-wrap gap-x-8 gap-y-4 border-t border-white/10 pt-7">
+        <div><strong class="block text-2xl">{{ product_count }}</strong><span class="text-xs text-muted">Available EAs</span></div>
+        <div><strong class="block text-2xl">{{ asset_count }}</strong><span class="text-xs text-muted">Asset groups</span></div>
+        <div><strong class="block text-2xl">{{ validated_count }}</strong><span class="text-xs text-muted">Strong evidence labels</span></div>
+        <div><strong class="block text-2xl">0</strong><span class="text-xs text-muted">Profit guarantees</span></div>
+      </div>
+    </div>
+
+    <div class="relative z-10 mx-auto w-full max-w-xl">
+      <div class="terminal-card shadow-glow">
+        <div class="flex items-center justify-between border-b border-white/10 px-5 py-4">
+          <div class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-red-400/80"></span><span class="h-2.5 w-2.5 rounded-full bg-amber-300/80"></span><span class="h-2.5 w-2.5 rounded-full bg-mint/80"></span></div>
+          <span class="font-mono text-[10px] uppercase tracking-[.16em] text-muted">Active BAT manifest</span>
+        </div>
+        <div class="p-5 sm:p-7">
+          <div class="mb-6 flex items-center justify-between"><span class="text-sm font-semibold">Portfolio topology</span><span class="badge badge-good">SOURCE SYNCED</span></div>
+          <div class="space-y-3">
+            {% for product in featured %}
+            <a href="/eas/{{ product.slug }}" class="signal-row group">
+              <span class="asset-icon accent-{{ product.accent }} h-9 w-9 text-[10px]">{{ product.canonical[:2] }}</span>
+              <span class="min-w-0 flex-1"><strong class="block truncate text-sm">{{ product.label }}</strong><span class="font-mono text-[10px] text-muted">{{ product.canonical }} · {{ product.timeframe }}</span></span>
+              {% if product.one_year_return_pct is not none %}<span class="text-right"><strong class="block font-mono text-sm {{ 'text-mint' if product.one_year_return_pct >= 0 else 'text-red-300' }}">{{ product.one_year_return_pct|percent(true) }}</strong><span class="text-[9px] text-muted">LAST 3Y</span></span>{% endif %}
+            </a>
+            {% endfor %}
+          </div>
+          <div class="mt-6 rounded-2xl border border-mint/20 bg-mint/[.055] p-4">
+            <div class="flex gap-3"><span class="text-mint">↗</span><p class="text-xs leading-5 text-[#b7d5cc]">The cached three-year core cash-flow overlay returned <strong class="text-mint">{{ portfolio.return_pct|percent(true) }}</strong> with a {{ '%.2f'|format(portfolio.profit_factor) }} profit factor. Review the audit methodology and portfolio-risk notes before combining systems.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="absolute -bottom-5 -left-5 hidden rounded-2xl border border-white/10 bg-[#0d1c19] p-4 shadow-2xl sm:block">
+        <p class="font-mono text-[9px] uppercase tracking-[.16em] text-muted">Checkout</p><p class="mt-1 text-sm font-semibold text-mint">Direct on WhatsApp</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-y border-white/10 bg-white/[.018]">
+  <div class="mx-auto grid max-w-7xl gap-5 px-5 py-8 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
+    <div class="trust-item"><span>01</span><div><strong>Installer-synced</strong><p>No rejected research folders in the store.</p></div></div>
+    <div class="trust-item"><span>02</span><div><strong>Evidence-labelled</strong><p>Backtest, locked and research are distinct.</p></div></div>
+    <div class="trust-item"><span>03</span><div><strong>MT5-ready files</strong><p>Compiled EA and current BAT preset.</p></div></div>
+    <div class="trust-item"><span>04</span><div><strong>Human checkout</strong><p>Compatibility checked before delivery.</p></div></div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-5 py-24 lg:px-8">
+  <div class="section-heading-row">
+    <div><p class="eyebrow-simple">All available systems</p><h2 class="section-title">Ranked by three-year return.</h2><p class="mt-4 max-w-2xl text-sm leading-6 text-muted">The default comparison uses each EA's precomputed three-year MT5 evidence. Ranking by return does not mean ranking by safety.</p></div>
+    <a href="/eas" class="text-sm font-semibold text-mint hover:text-white">Open catalogue →</a>
+  </div>
+  <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+    {% for product in ranked_products %}{% set rank = loop.index %}{% include "partials/ranked_card.html" %}{% endfor %}
+  </div>
+  {% if development_count %}
+  <div class="mt-8 rounded-3xl border border-amber-300/20 bg-amber-300/[.055] p-6 sm:p-8"><div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"><div><span class="badge badge-warn">IN DEVELOPMENT</span><h3 class="mt-4 text-xl font-bold">Auction Market research engine</h3><p class="mt-3 max-w-4xl text-sm leading-7 text-[#c7c0a7]">{{ development_count }} symbol presets remain in the BAT for controlled development and testing. They are not included in this sales list, ranking or package price until forward validation and portfolio-level risk review are complete.</p></div><span class="font-mono text-sm text-amber-200">NOT FOR SALE</span></div></div>
+  {% endif %}
+</section>
+
+<section class="border-y border-white/10 bg-[#091411]">
+  <div class="mx-auto grid max-w-7xl gap-14 px-5 py-24 lg:grid-cols-[.8fr_1.2fr] lg:px-8">
+    <div><p class="eyebrow-simple">Evidence protocol</p><h2 class="section-title">A result needs context before it needs colour.</h2><p class="mt-5 max-w-lg text-sm leading-7 text-muted">The store does not silently merge optimized training, locked validation and live performance. Each product identifies the evidence period, broker/data basis, trade count and maximum drawdown.</p></div>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div class="process-card"><span>01</span><h3>Define</h3><p>Freeze the symbol, timeframe, risk model and mechanical rules.</p></div>
+      <div class="process-card"><span>02</span><h3>Test</h3><p>Use native MT5 reports or clearly scoped cost-aware research.</p></div>
+      <div class="process-card"><span>03</span><h3>Separate</h3><p>Keep optimized training apart from untouched validation.</p></div>
+      <div class="process-card"><span>04</span><h3>Disclose</h3><p>Show negative evidence, tiny samples and portfolio risk.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-5 py-24 lg:px-8">
+  <div class="cta-panel">
+    <div><p class="eyebrow-simple text-mint">Available collection</p><h2 class="mt-4 max-w-2xl text-4xl font-extrabold tracking-tight">Get every production-ready EA currently offered.</h2><p class="mt-4 max-w-2xl text-sm leading-7 text-muted">The package contains the {{ product_count }} available systems, symbol mapping and setup support. Auction Market development builds are excluded.</p></div>
+    <div class="lg:text-right"><p class="font-mono text-xs text-muted">AVAILABLE PACKAGE</p><p class="mt-2 text-4xl font-extrabold">$1,990</p><a href="{{ package_url }}" target="_blank" rel="noopener" class="button-primary mt-5 justify-center">Discuss on WhatsApp</a></div>
+  </div>
+</section>
+{% endblock %}

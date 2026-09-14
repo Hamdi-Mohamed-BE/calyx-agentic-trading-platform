@@ -17,3 +17,12 @@ def test_public_statistics_helpers() -> None:
     low, high = wilson_interval(7, 10)
     assert 0.0 < low < 0.7 < high < 1.0
 
+
+def test_complete_store_application_imports_without_private_runtime() -> None:
+    from website.app.main import app as full_store_app
+
+    assert full_store_app.title == "Calyx"
+    with TestClient(full_store_app) as client:
+        for route in ("/store", "/eas", "/portfolio", "/pricing", "/risk", "/live"):
+            response = client.get(route)
+            assert response.status_code == 200, route

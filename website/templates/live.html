@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Live MT5 Portfolio — Calyx{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <div class="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-20">
+    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+      <div class="max-w-4xl"><p class="eyebrow-simple">Read-only MT5 telemetry</p><h1 class="page-title">The account, as it trades.</h1><p class="page-lead">Live equity, open exposure and every closed trade from the connected account history—with each automated trade attributed by EA magic number.</p></div>
+      <div class="live-connection-card"><div class="flex items-center gap-3"><span id="live-dot" class="live-dot"></span><div><strong id="live-status" class="block text-sm">Connecting to MT5…</strong><span id="live-updated" class="mt-1 block font-mono text-[9px] text-muted">Waiting for first snapshot</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-5 py-12 lg:px-8 lg:py-16">
+  <div id="live-error" class="mb-6 hidden rounded-2xl border border-amber-300/20 bg-amber-300/[.055] p-5 text-sm leading-6 text-[#c7c0a7]"></div>
+  <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+    <div class="live-stat"><span>Balance</span><strong id="stat-balance">—</strong><small id="account-id">Active account</small></div>
+    <div class="live-stat live-stat-primary"><span>Live equity</span><strong id="stat-equity">—</strong><small id="stat-equity-delta">Waiting for MT5</small></div>
+    <div class="live-stat"><span>Floating P/L</span><strong id="stat-floating">—</strong><small id="stat-open-count">0 open positions</small></div>
+    <div class="live-stat"><span>Closed trade P/L</span><strong id="stat-closed">—</strong><small id="history-start">Available account history</small></div>
+    <div class="live-stat"><span>Free margin</span><strong id="stat-free-margin">—</strong><small id="stat-margin-level">Margin level —</small></div>
+  </div>
+
+  <div class="mt-6 grid gap-5 xl:grid-cols-[1fr_300px]">
+    <div class="live-chart-card">
+      <div class="flex flex-wrap items-start justify-between gap-4"><div><p class="font-mono text-[10px] uppercase tracking-[.18em] text-mint">Live account curve</p><h2 class="mt-2 text-xl font-bold">Balance history since first reaching $10,000</h2><p class="mt-2 max-w-2xl text-xs leading-5 text-muted">Blue reconstructs the MT5 balance ledger from its first $10,000 crossing. Green is real floating equity recorded only while monitoring was running.</p></div><div class="flex gap-4 text-[10px] text-muted"><span class="flex items-center gap-2"><i class="h-2 w-5 rounded-full bg-mint"></i> Recorded equity</span><span class="flex items-center gap-2"><i class="h-2 w-5 rounded-full bg-[#63d9ff]"></i> Reconstructed balance</span></div></div>
+      <div id="chart-empty" class="grid min-h-[300px] place-items-center text-center text-sm text-muted"><p>Collecting the first live equity snapshots…<br><span class="mt-2 block text-xs">The graph updates every five seconds.</span></p></div>
+      <svg id="equity-chart" class="mt-6 hidden h-[320px] w-full" viewBox="0 0 1000 320" role="img" aria-label="MT5 balance history since first reaching 10,000 dollars with recorded live equity"></svg>
+    </div>
+    <aside class="evidence-note"><p class="font-mono text-[10px] uppercase tracking-[.18em] text-mint">Connection</p><dl class="mt-5 space-y-4 text-sm"><div class="flex justify-between gap-4"><dt class="text-muted">Account</dt><dd id="meta-account">—</dd></div><div class="flex justify-between gap-4"><dt class="text-muted">Server</dt><dd id="meta-server" class="text-right">—</dd></div><div class="flex justify-between gap-4"><dt class="text-muted">Currency</dt><dd id="meta-currency">—</dd></div><div class="flex justify-between gap-4"><dt class="text-muted">Leverage</dt><dd id="meta-leverage">—</dd></div><div class="flex justify-between gap-4"><dt class="text-muted">Monitoring</dt><dd id="meta-monitoring" class="text-right">—</dd></div></dl><p class="mt-6 border-t border-white/10 pt-5 text-xs leading-5 text-muted">Read-only connection. The website cannot place, modify or close MT5 orders. The account number is masked publicly.</p></aside>
+  </div>
+</section>
+
+<section class="border-y border-white/10 bg-[#091411]">
+  <div class="mx-auto max-w-7xl px-5 py-16 lg:px-8">
+    <div class="section-heading-row"><div><p class="eyebrow-simple">Right now</p><h2 class="section-title">Open positions</h2></div><span id="positions-badge" class="badge badge-neutral">0 active</span></div>
+    <div class="live-table-shell mt-8"><table class="live-table"><thead><tr><th>EA</th><th>Symbol</th><th>Side</th><th>Volume</th><th>Entry</th><th>Current</th><th>SL / TP</th><th>Floating</th><th>Opened</th></tr></thead><tbody id="positions-body"><tr><td colspan="9" class="empty-table">Waiting for MT5…</td></tr></tbody></table></div>
+
+    <div class="mt-14 flex items-center justify-between gap-4"><div><p class="eyebrow-simple">Waiting execution</p><h2 class="mt-2 text-2xl font-bold">Pending orders</h2></div><span id="orders-badge" class="badge badge-neutral">0 pending</span></div>
+    <div class="live-table-shell mt-6"><table class="live-table"><thead><tr><th>EA</th><th>Symbol</th><th>Type</th><th>Volume</th><th>Price</th><th>SL / TP</th><th>Placed</th></tr></thead><tbody id="orders-body"><tr><td colspan="7" class="empty-table">No pending orders.</td></tr></tbody></table></div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+  <div class="section-heading-row"><div><p class="eyebrow-simple">Attribution</p><h2 class="section-title">Performance by EA</h2><p class="mt-4 max-w-2xl text-sm leading-6 text-muted">Magic numbers identify the strategy responsible. Magic 0 is shown as manual; unknown magic numbers remain explicitly marked as external EAs.</p></div></div>
+  <div class="live-table-shell mt-8"><table class="live-table"><thead><tr><th>EA</th><th>Magic</th><th>Symbols</th><th>Closed</th><th>Win rate</th><th>Closed P/L</th><th>Open</th><th>Floating</th></tr></thead><tbody id="ea-summary-body"><tr><td colspan="8" class="empty-table">Building EA attribution…</td></tr></tbody></table></div>
+</section>
+
+<section class="border-y border-white/10 bg-[#091411]">
+  <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+    <div class="section-heading-row"><div><p class="eyebrow-simple">Account history</p><h2 class="section-title">Every reconstructed closed trade</h2><p class="mt-4 max-w-3xl text-sm leading-6 text-muted">Entries and exits are grouped by MT5 position ID. Net P/L includes the available profit, commission, swap and fee deal fields.</p></div><span id="trades-badge" class="badge badge-good">0 trades</span></div>
+    <div class="mt-8 grid gap-3 sm:grid-cols-[1fr_260px]"><label class="search-field"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="trade-search" placeholder="Search EA, symbol, comment or ticket…" autocomplete="off"></label><select id="trade-ea-filter" aria-label="Filter trade history by EA"><option value="all">All EAs</option></select></div>
+    <div class="live-table-shell mt-6"><table class="live-table"><thead><tr><th>Closed</th><th>EA</th><th>Symbol</th><th>Side</th><th>Volume</th><th>Entry → Exit</th><th>Costs</th><th>Net P/L</th><th>Exit</th></tr></thead><tbody id="trades-body"><tr><td colspan="9" class="empty-table">Loading full account trade history…</td></tr></tbody></table></div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', path='live.js') }}" defer></script>{% endblock %}

@@ -72,7 +72,7 @@ CAPABILITIES = [
 def home(request: Request) -> HTMLResponse:
     return templates.TemplateResponse(
         request=request,
-        name="index.html",
+        name="portfolio_overview.html",
         context={"stages": STAGES, "capabilities": CAPABILITIES},
     )
 
@@ -80,4 +80,3 @@ def home(request: Request) -> HTMLResponse:
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok", "service": "calyx-portfolio"}
-

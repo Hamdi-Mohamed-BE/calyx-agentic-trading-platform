@@ -1,0 +1,34 @@
+<a href="/eas/{{ product.slug }}" class="product-card group relative" aria-label="View {{ product.label }} details">
+  <div class="absolute right-5 top-5 font-mono text-xs text-muted">#{{ '%02d'|format(rank) }}</div>
+  <div class="flex items-center gap-3 pr-12">
+    <span class="asset-icon accent-{{ product.accent }}">{{ product.canonical[:2] }}</span>
+    <div>
+      <p class="font-mono text-[10px] uppercase tracking-[.18em] text-muted">{{ product.canonical }} · {{ product.timeframe }}</p>
+      <h3 class="mt-1 text-lg font-bold leading-tight text-white group-hover:text-mint">{{ product.label }}</h3>
+    </div>
+  </div>
+  {% if product.recommended_dynamic_mode %}<div class="mt-4"><span class="badge badge-dynamic">Running in Dynamic mode</span></div>{% elif product.recommended_safe_mode %}<div class="mt-4"><span class="badge badge-safe">Running in Safe mode</span></div>{% endif %}
+  <div class="mt-6 rounded-2xl border border-mint/15 bg-mint/[.045] p-4">
+    <span class="block font-mono text-[9px] uppercase tracking-[.18em] text-muted">Three-year return</span>
+    {% if product.one_year_return_pct is not none %}
+    <strong class="mt-2 block text-3xl text-mint">{{ product.one_year_return_pct|percent(true) }}</strong>
+    {% else %}
+    <strong class="mt-2 block text-2xl text-muted">Not available</strong>
+    {% endif %}
+    <span class="mt-2 block text-[10px] leading-4 text-muted">{{ product.one_year_evidence.period if product.one_year_evidence else 'Cached three-year evidence unavailable' }}</span>
+  </div>
+  {% if product.one_year_evidence %}
+  <div class="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+    <div class="mini-stat"><span>PF</span><strong>{{ '%.2f'|format(product.one_year_evidence.profit_factor) }}</strong></div>
+    <div class="mini-stat"><span>Max DD</span><strong>{{ product.one_year_evidence.drawdown_pct|percent }}</strong></div>
+    <div class="mini-stat"><span>Trades</span><strong>{{ product.one_year_evidence.trades }}</strong></div>
+    <div class="mini-stat"><span>Win rate</span><strong>{{ product.one_year_evidence.win_rate_pct|percent }}</strong></div>
+  </div>
+  {% else %}
+  <p class="mt-4 min-h-[44px] text-xs leading-5 text-muted">{{ product.one_year_note or 'A separate three-year statistics report is not available.' }}</p>
+  {% endif %}
+  <div class="mt-6 flex items-end justify-between border-t border-white/10 pt-5">
+    <div><span class="block text-[10px] uppercase tracking-[.15em] text-muted">License</span><strong class="text-xl">{{ product.price|money }}</strong></div>
+    <span class="card-link">View details <span aria-hidden="true">→</span></span>
+  </div>
+</a>

@@ -17,16 +17,26 @@ jobs:
       - name: Reject proprietary or generated assets
         shell: bash
         run: |
-          if find . -type f \( \
-            -iname '*.mq4' -o -iname '*.mq5' -o -iname '*.mqh' -o \
-            -iname '*.ex4' -o -iname '*.ex5' -o -iname '*.set' -o \
-            -iname '*.hst' -o -iname '*.fxt' -o -iname '*.ticks' \
-          \) -print -quit | grep -q .; then
+          if git ls-files | grep -Eiq '\.(mq4|mq5|mqh|ex4|ex5|set|hst|fxt|ticks)$'; then
             echo "A prohibited MetaTrader source, binary, preset, or data file is tracked."
             exit 1
           fi
+          blocked=(
+            "hama""101"
+            "51.91.""121.15"
+            "21693""830957"
+            "472""334559"
+            "474""572294"
+            "100""057610"
+            "mcp_""token="
+          )
+          for literal in "${blocked[@]}"; do
+            if git grep -nF "$literal" -- . ':(exclude).github/workflows/ci.yml'; then
+              echo "A known private machine, network, contact, account, or token literal is tracked."
+              exit 1
+            fi
+          done
       - name: Install public dependencies
         run: python -m pip install -e ".[dev]"
       - name: Run tests
         run: pytest -q
-

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Risk Disclosure — Calyx{% endblock %}
+{% block content %}
+<section class="page-hero"><div class="mx-auto max-w-5xl px-5 py-16 lg:px-8 lg:py-20"><p class="eyebrow-simple">Risk disclosure</p><h1 class="page-title">Automation removes hesitation. It does not remove risk.</h1><p class="page-lead">Read this before purchasing, installing or running any EA.</p></div></section>
+<section class="mx-auto max-w-5xl px-5 py-16 lg:px-8">
+  <div class="failure-banner"><div class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-red-400/10 text-2xl text-red-300">!</div><div><h2 class="text-xl font-bold">You can lose all deposited capital.</h2><p class="mt-3 text-sm leading-7 text-[#cbb4b4]">Leveraged CFDs, metals, indices, crypto and stocks can gap or move through stops. Historical drawdown is not a maximum future drawdown.</p></div></div>
+  <div class="prose-risk mt-12">
+    <section><h2>No guaranteed performance</h2><p>No EA, backtest, optimization, locked validation or live result guarantees future profit, a prop-firm payout, or preservation of capital. Market regimes change and a previously profitable rule can stop working.</p></section>
+    <section><h2>Backtests are models</h2><p>Results depend on data quality, modelling method, spread, commission, swap, slippage, execution delay and broker contract specifications. Research using CFD tick activity is not the same as centralized exchange volume.</p></section>
+    <section><h2>Portfolio risk can stack</h2><p>The current installer can open many independent positions. One percent per EA is not one percent total portfolio risk. Correlated gold, Nasdaq and equity setups can lose together.</p></section>
+    <section><h2>The combined audit is an overlay</h2><p>The default three-year result combines realized cash flows from separate EA tests. It is not a native simultaneous multi-EA simulation, so shared margin, floating drawdown and correlated exposure can be worse in live trading. Do not treat the complete package as a pre-validated live portfolio.</p></section>
+    <section><h2>Customer responsibility</h2><p>Confirm that automated trading is permitted by your broker or prop firm. Begin on demo, verify symbol mapping and lot sizing, monitor the terminal/VPS, and use capital you can afford to lose. Nothing on this website is personalized financial advice.</p></section>
+    <section><h2>Sales and compatibility</h2><p>Confirm the exact EA, MT5 build, broker symbol, account type, included files, account allowance, updates and support terms in writing before payment. Compiled files are supplied for licensed use and may not be redistributed.</p></section>
+  </div>
+  <div class="mt-12 flex flex-col items-start justify-between gap-5 rounded-3xl border border-white/10 bg-white/[.025] p-6 sm:flex-row sm:items-center"><div><strong>Questions before buying?</strong><p class="mt-1 text-sm text-muted">Contact Calyx directly at {{ whatsapp_display }}.</p></div><a href="https://wa.me/{{ whatsapp_number }}?text=Hello%20Calyx%2C%20I%20want%20to%20confirm%20the%20risk%20and%20compatibility%20before%20buying." target="_blank" rel="noopener" class="button-primary">Ask on WhatsApp</a></div>
+</section>
+{% endblock %}

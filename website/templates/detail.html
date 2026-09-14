@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}{{ product.label }} — Calyx{% endblock %}
+{% block content %}
+{% set selected_period = selected_period|default('3y', true) %}
+{% if product.slug in ['news-pulse-xau', 'news-pulse-xag', 'news-pulse-btc', 'gold-news-v9-direction'] %}
+<div class="mx-auto max-w-7xl px-5 pt-8 text-sm leading-7 text-amber-100/80 lg:px-8">Recommended Adaptive exemption: this news EA keeps its locked 0.75% planned risk per entry and bypasses adaptive daily stops, drawdown tapers and loss-streak tapers. Its own signal filters, broker constraints and exits are unchanged. Reapply the updated BAT to activate this on MT5.</div>
+{% endif %}
+{% set selected_dataset = product.safe_mode_label if selected_mode == 'safe' else product.dynamic_mode_label if selected_mode == 'dynamic' else 'Standard' %}
+<section class="page-hero overflow-hidden">
+  <div class="mx-auto max-w-7xl px-5 py-8 lg:px-8"><a href="/eas" class="text-xs font-semibold text-muted hover:text-white">← Back to catalogue</a></div>
+  <div class="mx-auto grid max-w-7xl items-end gap-10 px-5 pb-16 lg:grid-cols-[1fr_auto] lg:px-8 lg:pb-20">
+    <div>
+      <div class="flex flex-wrap items-center gap-3"><span class="asset-icon accent-{{ product.accent }} h-12 w-12">{{ product.canonical[:2] }}</span><span class="badge badge-neutral">{{ product.category }}</span>{% if product.recommended_dynamic_mode %}<span class="badge badge-dynamic">Running in Dynamic mode</span>{% elif product.recommended_safe_mode %}<span class="badge badge-safe">Running in Safe mode</span>{% endif %}{% if product.optional_symbol %}<span class="badge badge-neutral">Optional broker symbol</span>{% endif %}</div>
+      <p class="mt-7 font-mono text-xs uppercase tracking-[.18em] text-muted">{{ product.canonical }} · {{ product.timeframe }} · {{ product.session }}</p>
+      <h1 class="mt-3 max-w-4xl text-4xl font-extrabold tracking-[-.04em] sm:text-6xl">{{ product.label }}</h1>
+      <p class="mt-6 max-w-3xl text-lg leading-8 text-[#a9bcb7]">{{ product.tagline }}</p>
+    </div>
+    <div class="buy-panel min-w-[285px]">
+      <p class="font-mono text-[10px] uppercase tracking-[.18em] text-muted">Individual license</p><p class="mt-2 text-4xl font-extrabold">{{ product.price|money }}</p><p class="mt-2 text-xs text-muted">One live + one demo MT5 account</p>
+      <a href="{{ product.buy_url }}" target="_blank" rel="noopener" class="button-primary mt-6 w-full justify-center">Buy via WhatsApp</a>
+      <p class="mt-3 text-center text-[10px] leading-4 text-muted">Compatibility and delivery are confirmed before payment.</p>
+    </div>
+  </div>
+</section>
+
+<div data-evidence-scope>
+<section class="mx-auto max-w-7xl px-5 py-16 lg:px-8">
+  {% if display_evidence %}
+  <div class="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[.025] p-2">
+    <div class="flex flex-wrap gap-2"><a href="/eas/{{ product.slug }}?mode=standard&period={{ selected_period }}" class="rounded-xl px-5 py-3 text-sm font-bold {{ 'bg-mint text-ink' if selected_mode == 'standard' else 'text-muted hover:bg-white/5 hover:text-white' }}">Standard mode</a>{% if product.safe_filter_supported %}<a href="/eas/{{ product.slug }}?mode=safe&period={{ selected_period }}" class="rounded-xl px-5 py-3 text-sm font-bold {{ 'bg-[#68a7ff] text-ink' if selected_mode == 'safe' else 'text-muted hover:bg-white/5 hover:text-white' }}">{{ product.safe_mode_label }}</a>{% else %}<span class="cursor-not-allowed rounded-xl px-5 py-3 text-sm font-bold text-white/25" title="No validated Safe-mode configuration">Full Safe unavailable</span>{% endif %}{% if product.dynamic_mode_supported %}<a href="/eas/{{ product.slug }}?mode=dynamic&period={{ selected_period }}" class="rounded-xl px-5 py-3 text-sm font-bold {{ 'bg-[#f2bd5b] text-ink' if selected_mode == 'dynamic' else 'text-muted hover:bg-white/5 hover:text-white' }}">{{ product.dynamic_mode_label }}</a>{% endif %}</div>
+    <p class="px-3 text-xs text-muted">{% if selected_mode == 'dynamic' %}{{ product.dynamic_mode_note }}{% if product.recommended_dynamic_mode %} This is the Best Recommended BAT default.{% endif %}{% elif selected_mode == 'safe' %}{{ product.safe_mode_note }}{% if product.recommended_safe_mode %} This is the Best Recommended BAT default.{% endif %}{% elif product.recommended_dynamic_mode %}Standard mode is available for comparison; the Best Recommended BAT defaults this EA to Dynamic mode.{% elif product.recommended_safe_mode %}Unfiltered Standard mode is available for comparison; the Best Recommended BAT defaults this EA to Safe mode.{% else %}Current default installer configuration.{% endif %}</p>
+  </div>
+  <div class="mb-12 flex flex-wrap items-center justify-between gap-4"><div><p class="eyebrow-simple">{% if is_news_pulse %}Current corrected News Pulse evidence{% else %}Precomputed MT5 evidence · {% if product.dynamic_mode_supported %}Standard vs {{ product.safe_mode_label }} vs {{ product.dynamic_mode_label }}{% elif product.safe_filter_supported %}Standard vs {{ product.safe_mode_label }}{% else %}Standard{% endif %}{% endif %}</p><h2 class="mt-2 text-2xl font-bold" data-dynamic-evidence-title>{{ display_evidence.label }}</h2>{% if is_news_pulse %}<p class="mt-2 text-xs text-muted">Each period uses its own $10,000 native MT5 run with an official release calendar. Statistics, equity curves and trades follow the selected period; catalogue cards default to 3 years. Older pre-calendar-fix results are excluded.</p>{% elif product.dynamic_mode_supported %}<p class="mt-2 text-xs text-muted">All three cached equity curves are shown together; the statistics and trades follow the selected mode above.</p>{% elif product.safe_filter_supported %}<p class="mt-2 text-xs text-muted">Both cached equity curves are shown together; the statistics and trades follow the selected mode above.</p>{% endif %}</div>{% if display_evidence.status == 'Validated evidence' %}<span class="badge badge-good">Validated evidence</span>{% elif display_evidence.status == 'Research evidence' %}<span class="badge badge-warn">Research evidence</span>{% elif display_evidence.status.startswith('Watch only') %}<span class="badge badge-warn">Watch only</span>{% else %}<span class="badge badge-bad">Experimental</span>{% endif %}</div>
+  <div class="stats-strip stats-strip-expanded">
+    <div><span>Total return</span><strong data-dynamic-stat="return_pct" class="{{ 'text-mint' if display_evidence.return_pct >= 0 else 'text-red-300' }}">{{ display_evidence.return_pct|percent(true) }}</strong></div>
+    <div><span>Profit factor</span><strong data-dynamic-stat="profit_factor">{{ '%.2f'|format(display_evidence.profit_factor) }}</strong></div>
+    <div><span>Win rate</span><strong data-dynamic-stat="win_rate_pct">{{ display_evidence.win_rate_pct|percent }}</strong></div>
+    <div><span>Max DD</span><strong data-dynamic-stat="max_drawdown_pct">{{ display_evidence.drawdown_pct|percent }}</strong></div>
+    <div><span>Trades</span><strong data-dynamic-stat="trades">{{ display_evidence.trades }}</strong></div>
+    <div title="Longest run of consecutive profitable trades"><span>Max win streak</span><strong data-dynamic-stat="max_win_streak">{{ streak_stats.get('max_win_streak', '—') }}</strong></div>
+    <div title="Longest run of consecutive losing trades"><span>Max losing streak</span><strong data-dynamic-stat="max_loss_streak">{{ streak_stats.get('max_loss_streak', '—') }}</strong></div>
+  </div>
+  <p class="metric-disclosure mt-4">{% if is_news_pulse %}Metric basis: return, profit factor and win rate use native MT5 deals after recorded commission and swap. Maximum drawdown is the native relative equity drawdown, including floating P/L.{% else %}Metric basis: the headline return, profit factor, win rate and maximum drawdown come from this EA's native MT5 report for the selected saved mode.{% endif %} Portfolio contribution figures are separately recalculated from net closed trades after period clipping, recorded costs and adaptive scaling, so they can differ without either figure being incorrect.</p>
+  {% if is_news_pulse %}<p class="mt-4 rounded-xl border border-amber-300/20 bg-amber-300/[.04] p-4 text-xs leading-6 text-amber-100/80">Real-tick coverage: <strong data-dynamic-history-quality>{{ display_evidence.history_quality }}</strong>. Full calendar coverage does not mean full real-tick history. Where older broker ticks are missing, MT5 generates them; news fills and live slippage can differ substantially.</p>{% endif %}
+  <div class="evidence-controls mt-5" data-chart-controls>
+    <label><span>Evidence period</span><select data-chart-period>
+      <option value="6m" {{ 'selected' if selected_period == '6m' else '' }}>Last 6 months</option>
+      <option value="1y" {{ 'selected' if selected_period == '1y' else '' }}>Last 1 year</option>
+      <option value="3y" {{ 'selected' if selected_period == '3y' else '' }}>Last 3 years</option>
+      <option value="5y" {{ 'selected' if selected_period == '5y' else '' }}>Last 5 years</option>
+    </select></label>
+    <button type="button" class="button-secondary" data-chart-apply>Show cached period</button>
+    <p data-range-note>The graph, native MT5 statistics and trades are precomputed with this EA's exact recommended SET, so changing periods does not launch a tester job.</p>
+    <div class="evidence-update-state hidden" data-evidence-progress role="status" aria-live="polite">
+      <div class="evidence-progress-track" aria-hidden="true"><span data-evidence-progress-bar></span></div>
+      <p data-evidence-progress-text>Preparing evidence…</p>
+    </div>
+  </div>
+  <div class="mt-5 grid gap-5 lg:grid-cols-[1fr_330px]">
+    <div class="chart-panel" data-equity-graph data-series-url="/api/evidence/{{ product.slug }}/series?mode={{ 'compare' if product.safe_filter_supported else selected_mode }}" data-selected-dataset="{{ selected_dataset }}" data-chart-label="{{ product.label }} cached {% if product.dynamic_mode_supported %}three-mode comparison{% elif product.safe_filter_supported %}Standard versus Safe comparison{% else %}equity curve{% endif %}">
+      <div class="chart-loading" data-chart-status>Loading equity curve…</div>
+      <svg class="evidence-chart hidden" data-chart-svg role="img" aria-label="Cached equity curve for {{ product.label }}" viewBox="0 0 1000 360" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <aside class="evidence-note"><p class="font-mono text-[10px] uppercase tracking-[.18em] text-muted">Test context</p><p class="mt-4 text-sm font-semibold" data-dynamic-period>{{ display_evidence.period }}</p><p class="mt-3 text-xs leading-6 text-muted" data-dynamic-source>{{ display_evidence.source_note }}</p><dl class="mt-5 space-y-3 border-t border-white/10 pt-5 text-xs"><div class="flex justify-between gap-3"><dt class="text-muted">History quality</dt><dd data-dynamic-history-quality>{{ display_evidence.history_quality }}</dd></div><div class="flex justify-between gap-3"><dt class="text-muted">Evidence status</dt><dd>{{ display_evidence.status }}</dd></div></dl></aside>
+  </div>
+  {% else %}
+  <div class="mb-12 rounded-3xl border border-amber-300/20 bg-amber-300/[.06] p-6"><span class="badge badge-warn">Evidence pending</span><p class="mt-4 text-sm leading-6 text-[#c7c0a7]">A standardized public result has not been connected to this active installer entry. No performance figures are being invented.</p></div>
+  {% endif %}
+</section>
+
+<section class="border-y border-white/10 bg-[#091411]">
+  <div class="mx-auto grid max-w-7xl gap-14 px-5 py-20 lg:grid-cols-[.8fr_1.2fr] lg:px-8">
+    <div>
+      <p class="eyebrow-simple">Implemented strategy logic</p>
+      <h2 class="section-title">How the installed version actually works.</h2>
+      <p class="mt-5 text-sm leading-7 text-muted">{{ product.description }}</p>
+      <div class="mt-7 rounded-2xl border border-mint/20 bg-mint/[.045] p-5">
+        <span class="badge {{ 'badge-good' if product.logic_audit == 'Source-code verified' else 'badge-warn' }}">{{ product.logic_audit }}</span>
+        <p class="mt-3 text-xs leading-6 text-muted">{{ product.logic_audit_note }}</p>
+      </div>
+      <div class="mt-4 rounded-2xl border border-white/10 bg-white/[.025] p-5"><span class="text-[10px] uppercase tracking-[.16em] text-muted">Active risk model</span><p class="mt-2 text-sm leading-6">{{ product.risk_note }}</p></div>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-2xl border border-mint/20 bg-mint/[.035] p-5"><span class="text-[10px] uppercase tracking-[.16em] text-muted">Applied exit setup</span><p class="mt-2 text-sm font-bold text-mint">{{ product.exit_mode }}</p>{% if product.exit_mode == 'Dynamic 50/20' %}<p class="mt-2 text-xs leading-5 text-muted">After a completed M15 candle reaches 50% of the original path to target, the stop locks 20% of that path.</p>{% endif %}</div>
+        <div class="rounded-2xl border border-white/10 bg-white/[.025] p-5"><span class="text-[10px] uppercase tracking-[.16em] text-muted">Research session choice</span><p class="mt-2 text-sm font-bold">{{ product.deployment_session }}</p><p class="mt-2 text-xs leading-5 text-muted">No extra portfolio-wide session gate is imposed; the EA's native trading window still applies.</p></div>
+      </div>
+    </div>
+    <ol class="logic-list">
+      {% for step in product.logic %}<li><span>{{ '%02d'|format(loop.index) }}</span><div><h3>{{ step.title }}</h3><p>{{ step.detail }}</p></div></li>{% endfor %}
+    </ol>
+  </div>
+</section>
+
+{% if display_evidence %}
+<section class="mx-auto max-w-7xl px-5 py-16 lg:px-8" data-trade-history-section>
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div><p class="eyebrow-simple">Closed-trade evidence</p><h2 class="mt-2 text-2xl font-bold">Trade history for the selected period.</h2></div>
+    <p class="max-w-xl text-xs leading-6 text-muted">Newest trades appear first. Change the page size or move between pages without reloading the MT5 evidence.</p>
+  </div>
+  <p class="metric-disclosure">Net P/L includes the exact commission and swap parsed from the MT5 Deals table. Pips/points are reconstructed from cached entry and exit prices using 1 pip = 10 broker points. Est. R uses the configured risk and reconstructed balance at entry because MT5 history does not retain the EA's original stop after trailing or break-even changes.</p>
+  <div class="mt-5 live-table-shell" data-backtest-trades><table class="live-table"><thead><tr><th>Closed</th><th>EA / mode</th><th>Result</th><th>Net P/L</th><th>Commission</th><th>Swap</th><th>Est. R</th><th>Pips / points</th><th>Evidence source</th><th>Price chart</th></tr></thead><tbody data-backtest-trades-body><tr><td colspan="10" class="empty-table">Loading trades for this period…</td></tr></tbody></table></div>
+  <nav class="trade-pagination" data-trade-pagination aria-label="Trade history pages">
+    <label><span>Rows per page</span><select data-trade-page-size><option value="10" selected>10</option><option value="25">25</option><option value="50">50</option></select></label>
+    <p data-trade-page-summary aria-live="polite">Loading trades…</p>
+    <div><button type="button" data-trade-page-prev aria-label="Previous trade page">← Previous</button><button type="button" data-trade-page-next aria-label="Next trade page">Next →</button></div>
+  </nav>
+  <div class="trade-chart-panel hidden" data-trade-chart-panel>
+    <div class="trade-chart-heading"><div><p class="eyebrow-simple">Broker price evidence</p><h3 data-trade-chart-title>Selected trade</h3><p data-trade-chart-meta>Choose View trade beside a cached MT5 exit.</p></div><button type="button" class="button-secondary" data-trade-chart-close>Close chart</button></div>
+    <div class="trade-chart-canvas"><div class="chart-loading" data-trade-chart-status>Loading broker candles…</div><svg class="evidence-chart hidden" data-trade-chart-svg role="img" aria-label="Broker candlestick chart with trade entry and exit" viewBox="0 0 1000 430" preserveAspectRatio="xMidYMid meet"></svg></div>
+  </div>
+</section>
+{% endif %}
+</div>
+
+<section class="mx-auto grid max-w-7xl gap-8 px-5 py-20 lg:grid-cols-[1fr_380px] lg:px-8">
+  <div><p class="eyebrow-simple">Before you buy</p><h2 class="section-title">Limitations stay part of the product.</h2><ul class="mt-8 grid gap-3">{% for item in product.limitations %}<li class="risk-list-item"><span>!</span><p>{{ item }}</p></li>{% endfor %}</ul></div>
+  <aside class="included-card"><p class="font-mono text-[10px] uppercase tracking-[.18em] text-muted">Included</p><h3 class="mt-3 text-2xl font-bold">Ready for MT5 setup</h3><ul class="mt-6 space-y-4 text-sm"><li>✓ Compiled <span class="font-mono">.ex5</span> Expert Advisor</li><li>✓ Active BAT <span class="font-mono">.set</span> configuration</li><li>✓ Symbol and timeframe guidance</li><li>✓ One live + one demo account license</li><li>✓ 12 months of updates</li><li>✓ WhatsApp setup support</li></ul><a href="{{ product.buy_url }}" target="_blank" rel="noopener" class="button-primary mt-8 w-full justify-center">Ask about {{ product.label }}</a></aside>
+</section>
+
+{% if related %}<section class="border-t border-white/10"><div class="mx-auto max-w-7xl px-5 py-20 lg:px-8"><div class="section-heading-row"><div><p class="eyebrow-simple">Related systems</p><h2 class="mt-2 text-2xl font-bold">More {{ product.category|lower }} setups</h2></div></div><div class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">{% for product in related %}{% include "partials/product_card.html" %}{% endfor %}</div></div></section>{% endif %}
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', path='evidence.js') }}?v=20260912-news-full-coverage" defer></script>{% endblock %}

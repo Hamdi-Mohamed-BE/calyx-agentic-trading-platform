@@ -16,7 +16,7 @@
 
 Calyx is a human-governed research system that turns ideas from trading papers and videos into explicit strategy specifications, native MetaTrader 5 experiments, robustness audits and monitored forward tests.
 
-This clean repository is designed to explain and demonstrate the engineering without publishing proprietary trading IP. It contains the portfolio website and the reusable evidence-analysis layer. EA source code, compiled builds, strategy presets, credentials, account data and generated results are intentionally excluded.
+This clean repository is designed to explain and demonstrate the engineering without publishing proprietary trading IP. It contains the complete FastAPI store code, every original Jinja page and partial, the full browser-side JavaScript/CSS, the original website tests and maintenance tools, plus the reusable agentic evidence-analysis layer. EA source code, compiled builds, strategy presets, credentials, account data and generated results are intentionally excluded.
 
 ## Product overview
 
@@ -52,12 +52,19 @@ flowchart LR
 
 ```text
 agentic_flow/   Reusable research, macro and statistical audit components
-website/        Runnable FastAPI portfolio website
+website/app/    Complete original FastAPI store backend
+website/templates/ All original pages and reusable partials
+website/static/ Original CSS, JavaScript, and Calyx logo
+website/tests/  Original private-runtime integration tests (source preserved)
+website/tools/  Evidence, comparison, cache, and deployment utilities
+website/ops/    Sanitized Windows operating helpers
+website/main.py Portfolio-safe entry point that needs no private trading data
 docs/           Architecture, pipeline and security documentation
 tests/          Public-surface smoke and statistics tests
 ```
 
 See [the architecture](docs/architecture.md), [research pipeline](docs/research-pipeline.md), and [security boundary](docs/security-and-scope.md).
+The preserved store-specific setup and operating notes are in [website/README_FULL_STORE.md](website/README_FULL_STORE.md), with the original design plan in [website/WEBSITE_PLAN.md](website/WEBSITE_PLAN.md).
 
 ## Run locally
 
@@ -69,6 +76,14 @@ python -m venv .venv
 python -m pip install -e ".[dev]"
 uvicorn website.main:app --reload --host 127.0.0.1 --port 8080
 ```
+
+That command starts the portfolio-safe overview without private data. The complete original store entry point is also included:
+
+```powershell
+uvicorn website.app.main:app --reload --host 127.0.0.1 --port 8080
+```
+
+Without the private runtime, the full store uses `website/public_catalog_manifest.json`: a sanitized catalogue containing public product identity and capability flags but no executable names, source paths, presets, or evidence data. Private installer/evidence files are deliberately not versioned. Live MetaTrader monitoring is off by default and activates only when `CALYX_ENABLE_LIVE_MT5=true` and the private terminal/runtime variables are configured.
 
 Open `http://127.0.0.1:8080`. Run the checks with:
 

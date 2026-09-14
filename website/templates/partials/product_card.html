@@ -1,0 +1,43 @@
+<a href="/eas/{{ product.slug }}" class="product-card group" aria-label="View {{ product.label }} details" data-order="{{ catalogue_order.get(product.slug, 0) if catalogue_order is defined else 0 }}" data-asset="{{ product.asset_group }}" data-symbol="{{ product.canonical|lower }}" data-evidence="{{ product.evidence.status|lower if product.evidence else 'pending' }}" data-return="{{ product.evidence.return_pct if product.evidence else '' }}" data-pf="{{ product.evidence.profit_factor if product.evidence else '' }}" data-dd="{{ product.evidence.drawdown_pct if product.evidence else '' }}" data-win="{{ product.evidence.win_rate_pct if product.evidence else '' }}" data-sharpe="{{ product.evidence.sharpe_ratio if product.evidence and product.evidence.sharpe_ratio is not none else '' }}" data-recovery="{{ product.evidence.recovery_factor if product.evidence and product.evidence.recovery_factor is not none else '' }}" data-trades="{{ product.evidence.trades if product.evidence else '' }}" data-label="{{ product.label|lower }}" data-search="{{ (product.label ~ ' ' ~ product.strategy ~ ' ' ~ product.canonical)|lower }}">
+  <div class="flex items-start justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <span class="asset-icon accent-{{ product.accent }}">{{ product.canonical[:2] }}</span>
+      <div>
+        <p class="font-mono text-[10px] uppercase tracking-[.18em] text-muted">{{ product.category }} · {{ product.canonical }} {{ product.timeframe }}</p>
+        <h3 class="mt-1 text-lg font-bold leading-tight text-white group-hover:text-mint">{{ product.label }}</h3>
+      </div>
+    </div>
+    <div class="flex flex-col items-end gap-2">{% if product.recommended_dynamic_mode %}<span class="badge badge-dynamic">Running in Dynamic mode</span>{% elif product.recommended_safe_mode %}<span class="badge badge-safe">Running in Safe mode</span>{% endif %}{% if product.optional_symbol %}<span class="badge badge-neutral">Optional</span>{% endif %}</div>
+  </div>
+  <p class="mt-5 min-h-[48px] text-sm leading-6 text-muted">{{ product.tagline }}</p>
+  {% if product.evidence %}
+  <div class="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
+    <div class="mini-stat"><span>Return</span><strong class="{{ 'text-mint' if product.evidence.return_pct >= 0 else 'text-red-300' }}">{{ product.evidence.return_pct|percent(true) }}</strong></div>
+    <div class="mini-stat"><span>PF</span><strong>{{ '%.2f'|format(product.evidence.profit_factor) }}</strong></div>
+    <div class="mini-stat"><span>Max DD</span><strong>{{ product.evidence.drawdown_pct|percent }}</strong></div>
+    <div class="mini-stat"><span>Win rate</span><strong>{{ product.evidence.win_rate_pct|percent }}</strong></div>
+  </div>
+  {% if product.evidence.status.startswith('Watch only') %}
+  <p class="mt-3 font-mono text-[10px] uppercase tracking-[.08em] text-amber-200/80">Verified window · {{ product.evidence.period }}</p>
+  {% endif %}
+  <div class="mt-4 flex items-center justify-between">
+    {% if product.evidence.status == 'Validated evidence' %}<span class="badge badge-good">Validated evidence</span>
+    {% elif product.evidence.status == 'Research evidence' %}<span class="badge badge-warn">Research evidence</span>
+    {% elif product.evidence.status.startswith('Watch only') %}<span class="badge badge-warn">Watch only</span>
+    {% else %}<span class="badge badge-bad">Experimental</span>{% endif %}
+    <span class="font-mono text-[10px] text-muted">{{ product.evidence.trades }} trades</span>
+  </div>
+  {% if product.evidence.max_win_streak is not none and product.evidence.max_loss_streak is not none %}
+  <div class="mt-3 flex items-center justify-between rounded-xl border border-white/[.07] bg-white/[.025] px-3 py-2 font-mono text-[10px] uppercase tracking-[.08em] text-muted">
+    <span>Max win streak <strong class="ml-1 text-mint">{{ product.evidence.max_win_streak }}</strong></span>
+    <span>Max losing streak <strong class="ml-1 text-red-300">{{ product.evidence.max_loss_streak }}</strong></span>
+  </div>
+  {% endif %}
+  {% else %}
+  <div class="mt-5"><span class="badge badge-neutral">Evidence pending</span></div>
+  {% endif %}
+  <div class="mt-6 flex items-end justify-between border-t border-white/10 pt-5">
+    <div><span class="block text-[10px] uppercase tracking-[.15em] text-muted">License</span><strong class="text-xl">{{ product.price|money }}</strong></div>
+    <span class="card-link">View details <span aria-hidden="true">→</span></span>
+  </div>
+</a>

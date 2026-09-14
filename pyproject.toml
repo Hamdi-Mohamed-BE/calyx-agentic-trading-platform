@@ -18,7 +18,7 @@ build-backend = "setuptools.build_meta"
 include = ["agentic_flow*", "website*"]
 
 [tool.setuptools.package-data]
-website = ["templates/*.html", "static/*.css", "static/*.js", "static/images/*"]
+website = ["templates/*.html", "templates/partials/*.html", "static/*.css", "static/*.js", "static/images/*"]
 
 [project.optional-dependencies]
 dev = [

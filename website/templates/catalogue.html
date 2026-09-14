@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Active EA Catalogue — Calyx{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <div class="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-20">
+    <div class="max-w-3xl"><p class="eyebrow-simple">Available EA catalogue</p><h1 class="page-title">{{ product_count }} EAs available now.</h1><p class="page-lead">Every card below comes from the active installer. The {{ development_count }} Auction Market research presets are excluded while development and forward validation continue.</p></div>
+  </div>
+</section>
+<section class="mx-auto max-w-7xl px-5 py-12 lg:px-8 lg:py-16">
+  <form method="get" action="/eas" class="filter-panel" id="catalogue-filters">
+    <label class="search-field"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="live-search" name="q" value="{{ query }}" placeholder="Search EA, symbol or strategy…" autocomplete="off"></label>
+    <select name="symbol" id="asset-filter" aria-label="Filter by trading asset">
+      <option value="all" {% if selected_symbol == 'all' %}selected{% endif %}>All assets</option>
+      {% for symbol, count in symbols|dictsort %}<option value="{{ symbol|lower }}" {% if selected_symbol == symbol|lower %}selected{% endif %}>{{ symbol }} ({{ count }})</option>{% endfor %}
+    </select>
+    <select name="asset" id="asset-class-filter" aria-label="Filter by asset class">
+      <option value="all" {% if selected_asset == 'all' %}selected{% endif %}>All asset classes</option>
+      <option value="metals" {% if selected_asset == 'metals' %}selected{% endif %}>Metals ({{ groups.get('metals', 0) }})</option>
+      <option value="indices" {% if selected_asset == 'indices' %}selected{% endif %}>Indices ({{ groups.get('indices', 0) }})</option>
+      <option value="crypto" {% if selected_asset == 'crypto' %}selected{% endif %}>Crypto ({{ groups.get('crypto', 0) }})</option>
+      <option value="forex" {% if selected_asset == 'forex' %}selected{% endif %}>Forex ({{ groups.get('forex', 0) }})</option>
+      <option value="stocks" {% if selected_asset == 'stocks' %}selected{% endif %}>Stocks ({{ groups.get('stocks', 0) }})</option>
+    </select>
+    <select name="evidence" id="evidence-filter" aria-label="Filter by evidence status">
+      <option value="all" {% if selected_evidence == 'all' %}selected{% endif %}>All evidence</option>
+      <option value="validated" {% if selected_evidence == 'validated' %}selected{% endif %}>Validated evidence</option>
+      <option value="research" {% if selected_evidence == 'research' %}selected{% endif %}>Research evidence</option>
+      <option value="experimental" {% if selected_evidence == 'experimental' %}selected{% endif %}>Experimental</option>
+    </select>
+    <select name="sort" id="sort-filter" aria-label="Order EAs by performance metric">
+      <option value="recommended" {% if selected_sort == 'recommended' %}selected{% endif %}>Recommended order</option>
+      <option value="pf-desc" {% if selected_sort == 'pf-desc' %}selected{% endif %}>Highest profit factor</option>
+      <option value="win-desc" {% if selected_sort == 'win-desc' %}selected{% endif %}>Highest win rate</option>
+      <option value="dd-asc" {% if selected_sort == 'dd-asc' %}selected{% endif %}>Lowest drawdown</option>
+      <option value="return-desc" {% if selected_sort == 'return-desc' %}selected{% endif %}>Highest return</option>
+      <option value="sharpe-desc" {% if selected_sort == 'sharpe-desc' %}selected{% endif %}>Highest Sharpe ratio</option>
+      <option value="recovery-desc" {% if selected_sort == 'recovery-desc' %}selected{% endif %}>Highest recovery factor</option>
+      <option value="trades-desc" {% if selected_sort == 'trades-desc' %}selected{% endif %}>Most trades</option>
+      <option value="name-asc" {% if selected_sort == 'name-asc' %}selected{% endif %}>EA name A–Z</option>
+    </select>
+    <button class="button-secondary justify-center" type="submit">Apply</button>
+  </form>
+  <div class="mt-6 flex items-center justify-between"><p class="text-sm text-muted"><strong id="visible-count" class="text-white">{{ result_count }}</strong> active setup{% if result_count != 1 %}s{% endif %}</p><a href="/eas" class="text-xs font-semibold text-muted hover:text-white">Clear filters</a></div>
+  <div id="product-grid" class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3" aria-live="polite">
+    {% for product in products %}{% include "partials/product_card.html" %}{% endfor %}
+  </div>
+  <div id="empty-state" class="mt-8 hidden rounded-3xl border border-dashed border-white/15 p-12 text-center"><h2 class="text-xl font-bold">No matching EA</h2><p class="mt-2 text-sm text-muted">Try another symbol, strategy or evidence filter.</p></div>
+</section>
+{% endblock %}
