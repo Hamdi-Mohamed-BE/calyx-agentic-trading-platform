@@ -12,6 +12,8 @@
   <a href="https://calyx.duckdns.org/"><strong>Visit the live Calyx website →</strong></a>
 </p>
 
+> Repository status: the code has passed a local public-surface audit and is currently private pending the owner's GitHub security confirmation. Once public, this URL is the canonical engineering proof for CV and LinkedIn use.
+
 Calyx is a human-governed research system that turns ideas from trading papers and videos into explicit strategy specifications, native MetaTrader 5 experiments, robustness audits and monitored forward tests.
 
 This clean repository is designed to explain and demonstrate the engineering without publishing proprietary trading IP. It contains the portfolio website and the reusable evidence-analysis layer. EA source code, compiled builds, strategy presets, credentials, account data and generated results are intentionally excluded.
@@ -74,6 +76,8 @@ Open `http://127.0.0.1:8080`. Run the checks with:
 pytest
 ```
 
+Every push also runs the same test suite on Python 3.12 and rejects common MetaTrader source, compiled binary, preset and tick-data extensions before the public surface can pass CI.
+
 ## Research command
 
 ```powershell
@@ -81,6 +85,8 @@ python -m agentic_flow.calyx_pipeline --help
 ```
 
 The only optional credential used by the published flow is `FXMD_API_KEY`; keep it in the local environment and never commit it. Copy `.env.example` if you need a reminder of the variable name.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) before changing the repository boundary.
 
 ## Safety statement
 
