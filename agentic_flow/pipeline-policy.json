@@ -1,0 +1,41 @@
+{
+  "version": "2026-09-10",
+  "development": {
+    "raw_replication_first": true,
+    "one_factor_at_a_time": true,
+    "record_all_tested_configurations": true,
+    "selection_target": "stable parameter plateau, not maximum backtest return"
+  },
+  "locked_evidence": {
+    "minimum_closed_trades": 30,
+    "preferred_closed_trades": 100,
+    "minimum_profit_factor": 1.0,
+    "minimum_deflated_sharpe_probability_pct": 95.0,
+    "minimum_bootstrap_profit_probability_pct": 95.0,
+    "require_bootstrap_return_p05_positive": true,
+    "require_bootstrap_pf_p05_above_1": true,
+    "minimum_profitable_chronological_thirds": 2,
+    "require_recent_half_pf_above_1": true
+  },
+  "risk": {
+    "default_daily_loss_limit_pct": 5.0,
+    "default_total_loss_limit_pct": 10.0,
+    "maximum_closed_pnl_total_breach_probability_pct": 5.0,
+    "native_equity_path_still_required": true,
+    "block_bootstrap_paths": 10000,
+    "block_length": 5
+  },
+  "execution": {
+    "broker_specific_extra_cost_stress_required": true,
+    "do_not_invent_missing_spread_or_slippage": true
+  },
+  "macro": {
+    "provider": "FXMacroData",
+    "optional_overlay_only": true,
+    "raw_baseline_must_pass_first": true,
+    "join_field": "announcement_datetime",
+    "require_point_in_time_safe": true,
+    "require_source_and_freshness_metadata": true,
+    "reject_incomplete_history": true
+  }
+}

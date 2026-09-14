@@ -1,0 +1,22 @@
+[project]
+name = "calyx-agentic-trading-platform"
+version = "0.1.0"
+description = "Portfolio-safe Calyx website and evidence-first agentic research pipeline"
+requires-python = ">=3.12"
+dependencies = [
+  "beautifulsoup4>=4.13.0",
+  "fastapi>=0.116.0",
+  "jinja2>=3.1.6",
+  "uvicorn[standard]>=0.35.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "httpx>=0.28.1",
+  "pytest>=8.4.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+

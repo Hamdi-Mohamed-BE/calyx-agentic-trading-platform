@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Calyx — an evidence-first agentic trading research and validation platform.">
+  <meta name="theme-color" content="#07100f">
+  <title>Calyx — Agentic Trading Research</title>
+  <link rel="icon" type="image/jpeg" href="{{ url_for('static', path='images/calyx-logo.jpg') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Manrope','sans-serif'],mono:['DM Mono','monospace']},colors:{ink:'#07100f',panel:'#0b1715',mint:'#7ef7c7',lime:'#c4ff63',muted:'#8fa6a1'}}}}</script>
+  <link rel="stylesheet" href="{{ url_for('static', path='site.css') }}">
+</head>
+<body class="bg-ink text-white antialiased">
+  <div class="noise" aria-hidden="true"></div>
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-ink/85 backdrop-blur-xl">
+    <nav class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-8">
+      <a href="/" class="flex items-center gap-3">
+        <span class="calyx-logo-mark h-11 w-11 rounded-xl border border-mint/30"><img src="{{ url_for('static', path='images/calyx-logo.jpg') }}" alt="" width="44" height="44"></span>
+        <span><strong class="block text-sm tracking-[.16em]">CALYX</strong><span class="block text-[10px] uppercase tracking-[.22em] text-muted">Agentic Research Platform</span></span>
+      </a>
+      <a href="https://calyx.duckdns.org/" class="button-primary text-sm" target="_blank" rel="noopener">View live system ↗</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero-shell relative overflow-hidden">
+      <div class="hero-orb hero-orb-one"></div><div class="hero-orb hero-orb-two"></div>
+      <div class="relative z-10 mx-auto grid min-h-[680px] max-w-7xl items-center gap-14 px-5 py-20 lg:grid-cols-[1.05fr_.95fr] lg:px-8">
+        <div>
+          <div class="eyebrow"><span class="pulse-dot"></span> Human-governed · evidence-first</div>
+          <h1 class="mt-8 text-5xl font-extrabold leading-[.96] tracking-[-.055em] sm:text-6xl lg:text-[76px]">Research in. <span class="text-gradient">Robust evidence out.</span></h1>
+          <p class="mt-7 max-w-2xl text-lg leading-8 text-[#a9bcb7]">Calyx turns trading ideas from papers and videos into testable specifications, challenges them against native MT5 evidence, and promotes only robust survivors to monitored forward tests.</p>
+          <div class="mt-9 flex flex-wrap gap-3"><a href="#workflow" class="button-primary">Explore the workflow</a><a href="#safety" class="button-secondary">Read the safety boundary</a></div>
+        </div>
+        <div class="terminal-card shadow-glow p-6 sm:p-8">
+          <p class="font-mono text-[10px] uppercase tracking-[.16em] text-muted">Candidate lifecycle</p>
+          <div class="mt-6 space-y-3">
+            {% for label, status in [('Idea captured','TRACEABLE'),('Rules specified','EXPLICIT'),('Native backtest','REQUIRED'),('Robustness audit','10K PATHS'),('Forward test','HUMAN GATE')] %}
+            <div class="signal-row"><span class="font-mono text-xs text-mint">0{{ loop.index }}</span><strong class="flex-1 text-sm">{{ label }}</strong><span class="badge badge-good">{{ status }}</span></div>
+            {% endfor %}
+          </div>
+          <p class="mt-6 text-xs leading-6 text-muted">No profitability guarantee. A passing historical audit means eligible for isolated demo testing—not automatic live deployment.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow" class="mx-auto max-w-7xl px-5 py-24 lg:px-8">
+      <p class="eyebrow-simple">Agentic workflow</p><h2 class="section-title">From unstructured idea to governed decision.</h2>
+      <div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {% for stage in stages %}<article class="process-card"><span>{{ stage.number }}</span><h3>{{ stage.title }}</h3><p>{{ stage.detail }}</p></article>{% endfor %}
+      </div>
+    </section>
+
+    <section class="border-y border-white/10 bg-[#091411]">
+      <div class="mx-auto grid max-w-7xl gap-14 px-5 py-24 lg:grid-cols-[.85fr_1.15fr] lg:px-8">
+        <div><p class="eyebrow-simple">Engineering depth</p><h2 class="section-title">Automation that preserves skepticism.</h2><p class="mt-5 text-sm leading-7 text-muted">The workflow automates repetitive research and testing, but keeps provenance, uncertainty, rejection evidence and human promotion decisions visible.</p></div>
+        <div class="grid gap-3 sm:grid-cols-2">{% for item in capabilities %}<div class="signal-row"><span class="text-mint">✓</span><span class="text-sm">{{ item }}</span></div>{% endfor %}</div>
+      </div>
+    </section>
+
+    <section id="safety" class="mx-auto max-w-7xl px-5 py-24 lg:px-8">
+      <div class="cta-panel"><div><p class="eyebrow-simple">Repository boundary</p><h2 class="mt-4 text-4xl font-extrabold tracking-tight">Transparent architecture. Protected trading IP.</h2><p class="mt-4 max-w-3xl text-sm leading-7 text-muted">This repository contains the portfolio website and reusable evidence-analysis workflow. It intentionally excludes EA source, compiled builds, strategy presets, broker credentials, account telemetry, proprietary tick data and generated research artifacts.</p></div></div>
+    </section>
+  </main>
+  <footer class="border-t border-white/10 py-8 text-center text-xs text-muted">Calyx is research software. Historical results do not guarantee future performance.</footer>
+</body>
+</html>
+

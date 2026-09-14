@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*secret*
+*credentials*
+
+# Proprietary MetaTrader assets — intentionally never versioned here
+*.mq4
+*.mq5
+*.ex4
+*.ex5
+*.mqh
+*.set
+*.ini
+*.tpl
+*.chr
+*.hst
+*.fxt
+*.ticks
+
+# Generated evidence, trading/account data, and builds
+data/
+Snapshots/
+snapshots/
+reports/
+evidence/
+artifacts/
+build/
+dist/
+logs/
+*.log
+*.htm
+*.html.report
+*.csv
+*.parquet
+*.sqlite*
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
