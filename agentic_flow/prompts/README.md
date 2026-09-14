@@ -24,4 +24,3 @@ mcp_only = load_prompt("AGENT_MCP_SETUP_PROMPT.md")
 ## Maintenance rule
 
 Update the canonical prompt when governance, evidence schema, validation stages, deployment boundary, or portfolio controls change. Update the MCP prompt when supported tools or initialization patterns change. Do not hard-code performance figures, current account state, credentials, personal paths, or private strategy inventory in either file.
-

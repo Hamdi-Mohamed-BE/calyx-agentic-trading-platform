@@ -1,6 +1,6 @@
 # Calyx Active EA and Research Root — Public Agent Prompt
 
-**Public-safe edition:** 2026-09-14  
+**Public-safe edition:** 2026-09-14
 **Scope:** Calyx research, MT5 validation, evidence, portfolio, website, and live-audit orchestration.
 
 This is the canonical operating prompt for the published Calyx agentic flow. The private workspace contains the executable strategies, exact presets, native reports, generated evidence, broker configuration, and deployment state. Those artifacts remain the numerical source of truth and must never be inferred from this repository.
@@ -197,4 +197,3 @@ End strategy decisions with one clear label:
 Before completion, verify causal rules, exact build/preset identity, actual data coverage, cost disclosure, evidence labels, ledger-recomputed metrics, cache/site consistency, calendar coverage, portfolio regeneration, tests, deployment state, MT5 authorization boundaries, Git state, and visible limitations.
 
 Core principle: **one coded rule set, one exact test artifact, one evidence chain, one matching website representation.**
-

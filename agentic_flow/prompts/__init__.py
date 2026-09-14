@@ -22,4 +22,3 @@ def load_agent_context(*, include_mcp_setup: bool = False) -> str:
     if not include_mcp_setup:
         return master
     return f"{master}\n\n---\n\n{load_prompt(MCP_SETUP_PROMPT)}"
-

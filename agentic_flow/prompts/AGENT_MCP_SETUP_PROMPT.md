@@ -181,4 +181,3 @@ Use the canonical master prompt and `docs/research-pipeline.md` for the full val
 - Were manual and unknown orders left untouched?
 - Were secrets and local identifiers kept out of output and Git?
 - Is uncertainty or missing evidence visible?
-
